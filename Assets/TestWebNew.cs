@@ -7,7 +7,7 @@ using Vuplex.WebView;
 
 public class TestWebNew : MonoBehaviour
 {
-    WebViewPrefab webView;
+    public WebViewPrefab webView;
     TextMeshPro tmp;
     string debugInfo;
 
@@ -16,7 +16,7 @@ public class TestWebNew : MonoBehaviour
     {
         tmp = gameObject.AddComponent<TextMeshPro>();
         tmp.fontSize = 0.5f;
-        tmp.transform.position = new Vector3(9.2f, -2f, 0.6f);
+        tmp.transform.position = new Vector3(10f, -2.4f, 0.6f);
 
         string htmlUrl = "streaming-assets://Firepad Demo.html";
         //string htmlUrl = "file:///C:/Data/Users/zengxinaz18@outlook.com/Documents/origin/Firepad Demo.html";
@@ -25,7 +25,7 @@ public class TestWebNew : MonoBehaviour
         //htmlUrl = htmlUrl.Replace(" ", "%20");
 
         // 宽是一个固定值，自己设置。
-        float webViewBrowserUnityWidth = 0.3f;
+        float webViewBrowserUnityWidth = 0.4f;
         webView = WebViewPrefab.Instantiate(webViewBrowserUnityWidth, 3*webViewBrowserUnityWidth); //第二个值自己设，大一点无妨
         
         
@@ -83,7 +83,9 @@ public class TestWebNew : MonoBehaviour
         webView.Resolution = webView.Resolution / webViewBrowserPixelWidth * elementPixelWidth;
 
         // 调整位置
+        Debug.Log("wvp pos before:" + webView.transform.position);
         webView.transform.position = new Vector3(0, 0.1f, 0.4f);
+        Debug.Log("wvp pos after:" + webView.transform.position);
         webView.transform.eulerAngles = new Vector3(0, 180, 0);
 
         webView.Clicked += async (sender, eventArgs) =>
@@ -102,13 +104,16 @@ public class TestWebNew : MonoBehaviour
             await webView.WebView.ExecuteJavaScript(queryColor);
 
             debugInfo = clickElement;
+            tmp.text = debugInfo;
         };
+        
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         //debugInfo = Application.persistentDataPath;
-        tmp.text = debugInfo;
+        //tmp.text = debugInfo;
     }
 }
