@@ -19,13 +19,9 @@ public class TestWebNew : MonoBehaviour
         tmp.transform.position = new Vector3(10f, -2.4f, 0.6f);
 
         string htmlUrl = "streaming-assets://Firepad Demo.html";
-        //string htmlUrl = "file:///C:/Data/Users/zengxinaz18@outlook.com/Documents/origin/Firepad Demo.html";
-        //string htmlUrl = "https://www.baidu.com";
-        // string htmlUrl = Application.persistentDataPath + "/origin-1/Firepad Demo.html";
-        //htmlUrl = htmlUrl.Replace(" ", "%20");
 
         // 宽是一个固定值，自己设置。
-        float webViewBrowserUnityWidth = 0.4f;
+        float webViewBrowserUnityWidth = 0.55f;
         webView = WebViewPrefab.Instantiate(webViewBrowserUnityWidth, 3*webViewBrowserUnityWidth); //第二个值自己设，大一点无妨
         
         
@@ -90,11 +86,11 @@ public class TestWebNew : MonoBehaviour
 
         webView.Clicked += async (sender, eventArgs) =>
         {
-            Debug.Log("clicked at point: " + Math.Round(eventArgs.Point.x, 4) + ", " + Math.Round(eventArgs.Point.y, 4));
+            //Debug.Log("clicked at point: " + Math.Round(eventArgs.Point.x, 4) + ", " + Math.Round(eventArgs.Point.y, 4));
 
             int coordinationXofClick = (int)(elementPixelWidth * Math.Round(eventArgs.Point.x, 4));
             int coordinationYofClick = (int)(elementPixelHeight * Math.Round(eventArgs.Point.y, 4));
-            Debug.Log("Click at Pixel:" + coordinationXofClick + "," + coordinationYofClick);
+            //Debug.Log("Click at Pixel:" + coordinationXofClick + "," + coordinationYofClick);
 
             string query = "getXPath(document.elementFromPoint(" + coordinationXofClick + "," + coordinationYofClick + "))";
             string clickElement = await webView.WebView.ExecuteJavaScript(query);
