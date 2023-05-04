@@ -11,6 +11,19 @@ public class TestWebNew : MonoBehaviour
     TextMeshPro tmp;
     string debugInfo;
 
+    SendXPath SendXPathScript;
+
+    private void Awake()
+    {
+        Invoke("GetSendXPath", 1f);
+    }
+
+    void GetSendXPath()
+    {
+        // Network Communication
+        SendXPathScript = GameObject.Find("WebManager").GetComponent<SendXPath>();
+    }
+
     // Start is called before the first frame update
     async void Start()
     {
@@ -18,10 +31,10 @@ public class TestWebNew : MonoBehaviour
         tmp.fontSize = 0.5f;
         tmp.transform.position = new Vector3(10f, -2.4f, 0.6f);
 
-        string htmlUrl = "streaming-assets://Firepad Demo.html";
+        string htmlUrl = "streaming-assets://origin/Firepad Demo.html";
 
         // 宽是一个固定值，自己设置。
-        float webViewBrowserUnityWidth = 0.55f;
+        float webViewBrowserUnityWidth = 0.3f;
         webView = WebViewPrefab.Instantiate(webViewBrowserUnityWidth, 3*webViewBrowserUnityWidth); //第二个值自己设，大一点无妨
         
         
@@ -96,13 +109,16 @@ public class TestWebNew : MonoBehaviour
             string clickElement = await webView.WebView.ExecuteJavaScript(query);
             Debug.Log("Click element: " + clickElement);
 
-            string queryColor = "document.elementFromPoint(" + coordinationXofClick + "," + coordinationYofClick + ").style.backgroundColor = 'red'";
-            await webView.WebView.ExecuteJavaScript(queryColor);
+            // Network Communication
+            SendXPathScript.testClient.SendString(clickElement);
+
+            //string queryColor = "document.elementFromPoint(" + coordinationXofClick + "," + coordinationYofClick + ").style.backgroundColor = 'red'";
+            //await webView.WebView.ExecuteJavaScript(queryColor);
 
             debugInfo = clickElement;
             tmp.text = debugInfo;
         };
-        
+
         
     }
 

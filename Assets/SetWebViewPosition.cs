@@ -10,7 +10,7 @@ using Vuplex.WebView;
 public class SetWebViewPosition : MonoBehaviour
 {
     public Vector3 anchorPosition = new Vector3(0, 0.4f, 0.4f);
-    Vector3 anchorOffset = new Vector3(0.1f, 0.1f, 0.1f);
+    Vector3 anchorOffset = new Vector3(0.1f, 0.16f, 0.1f);
     TextMeshPro tmp;
     WebViewPrefab webView;
 
@@ -24,12 +24,12 @@ public class SetWebViewPosition : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Invoke("GetQRRelated", 1f);
+
         tmp = gameObject.GetComponent<TextMeshPro>();
         tmp.text = "hello";
 
-        Invoke("GetQRRelated", 1f);
-
-        webView = gameObject.GetComponent<TestWebNew>().webView;
+        webView = gameObject.GetComponent<OpenBili>().webView;
     }
 
     void GetQRRelated()
@@ -58,7 +58,7 @@ public class SetWebViewPosition : MonoBehaviour
         }
         catch
         {
-
+            ;
         }
         
     }
