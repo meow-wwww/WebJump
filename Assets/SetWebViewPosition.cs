@@ -9,63 +9,74 @@ using Vuplex.WebView;
 
 public class SetWebViewPosition : MonoBehaviour
 {
-    public Vector3 anchorPosition = new Vector3(0, 0.4f, 0.4f);
-    Vector3 anchorOffset = new Vector3(0.1f, 0.16f, 0.1f);
+    public Vector3 anchorOffset = new Vector3(0.35f, 0f, -0.2f);
     TextMeshPro tmp;
     WebViewPrefab webView;
 
     Vector3 qrPosition;
     Vector3 qrRotation;
 
-    GameObject startScanButton;
+    public GameObject startScanButton;
 
+    public GameObject QRCodesManagerRef;
     private System.Collections.Generic.SortedDictionary<string, UnityEngine.GameObject> qrList;
 
-    // Start is called before the first frame update
+    private void Awake()
+    {
+        tmp = gameObject.AddComponent<TextMeshPro>();
+        tmp.fontSize = 0.5f;
+        tmp.transform.position = new Vector3(10f, -2.2f, 0.6f);
+        tmp.text = "hello";
+    }
+
     void Start()
     {
         Invoke("GetQRRelated", 1f);
-
-        tmp = gameObject.GetComponent<TextMeshPro>();
-        tmp.text = "hello";
-
-        webView = gameObject.GetComponent<OpenBili>().webView;
+        webView = gameObject.GetComponent<OpenBiliRecommendationImg>().webView;
     }
 
     void GetQRRelated()
     {
-        qrList = GameObject.Find("QRCodesManager").GetComponent<QRCodesVisualizer>().qrCodesObjectsList;
+        qrList = QRCodesManagerRef.GetComponent<QRCodesVisualizer>().qrCodesObjectsList;
         Debug.Log("=================get qrlist:" + qrList);
 
-        startScanButton = GameObject.Find("QRCodePanel").transform.Find("ContentPanel/StartScanButton").gameObject;
+        //startScanButton = GameObject.Find("QRCodePanel").transform.Find("ContentPanel/StartScanButton").gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
-        try
+        if (webView == null)//获取对webView的引用
         {
-            if (!startScanButton.activeSelf) //只有在扫描二维码的时候才调整UI位置
+            webView = gameObject.GetComponent<OpenBiliRecommendationImg>().webView;
+        }
+
+        if (!startScanButton.activeSelf) //只有在扫描二维码的时候才调整UI位置
+        {
+            tmp.text = "scanning, qrListLen=" + qrList.Count;
+            try
             {
                 GameObject qrCode = qrList.First().Value;
                 qrPosition = qrCode.transform.position;
                 qrRotation = qrCode.transform.rotation.eulerAngles;
-
-                webView.transform.position = qrPosition + Quaternion.Euler(qrRotation) * anchorOffset; // qrCode.transform.rotation * anchorOffset;
-                webView.transform.rotation = Quaternion.Euler(qrRotation) * Quaternion.Euler(0f, 0f, 180f); //Quaternion.Euler(0, 180, 0) * qrCode.transform.rotation;
-                Debug.Log("qr rotation quaternion:" + Quaternion.Euler(qrRotation));
             }
+            catch
+            {
+                qrPosition = new Vector3(0, 0, 5);
+                qrRotation = webView.transform.rotation.eulerAngles;
+            }
+
+            try
+            {
+                webView.transform.position = qrPosition + Quaternion.Euler(qrRotation) * anchorOffset;
+                webView.transform.rotation = Quaternion.Euler(qrRotation) * Quaternion.Euler(0f, 0f, 180f);
+            }
+            catch {; }
         }
-        catch
+        else
         {
-            ;
+            tmp.text = "not scanning";
         }
         
-    }
-
-    public void setAnchorPositon(Vector3 position)
-    {
-        anchorPosition = position;
-        tmp.text = "pos:" + position;
     }
 }

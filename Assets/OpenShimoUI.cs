@@ -5,13 +5,13 @@ using TMPro;
 using UnityEngine;
 using Vuplex.WebView;
 
-public class TestWebNew : MonoBehaviour
+public class OpenShimoUI : MonoBehaviour
 {
     public WebViewPrefab webView;
     TextMeshPro tmp;
     string debugInfo;
 
-    SendXPath SendXPathScript;
+    SendString SendXPathScript;
 
     private void Awake()
     {
@@ -21,7 +21,7 @@ public class TestWebNew : MonoBehaviour
     void GetSendXPath()
     {
         // Network Communication
-        SendXPathScript = GameObject.Find("WebManager").GetComponent<SendXPath>();
+        SendXPathScript = GameObject.Find("WebManager").GetComponent<SendString>();
     }
 
     // Start is called before the first frame update
@@ -110,7 +110,7 @@ public class TestWebNew : MonoBehaviour
             Debug.Log("Click element: " + clickElement);
 
             // Network Communication
-            SendXPathScript.testClient.SendString(clickElement);
+            SendXPathScript.testClient.SendStringMessage(clickElement);
 
             //string queryColor = "document.elementFromPoint(" + coordinationXofClick + "," + coordinationYofClick + ").style.backgroundColor = 'red'";
             //await webView.WebView.ExecuteJavaScript(queryColor);

@@ -81,3 +81,4 @@ crashlytics-build.properties
 /Packages
 *Nuget
 /Assets/MixedRealityToolkit.Generated
+/Assets/Samples

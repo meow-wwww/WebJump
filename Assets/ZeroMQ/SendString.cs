@@ -8,7 +8,7 @@ using NetMQ.Sockets;
 using System;
 using System.Text;
 
-public class SendXPath : MonoBehaviour
+public class SendString : MonoBehaviour
 {
     public ZmqClientEntity testClient;
 
@@ -109,14 +109,14 @@ public class SendXPath : MonoBehaviour
 
         }
 
-        public void SendString(string XPath)
+        public string SendStringMessage(string sendMessage)
         {
             // create a new socket to send to server
             using (RequestSocket socket = new RequestSocket())
             {
                 string connect_information = "tcp://" + connect_ip + ":" + connect_port;
                 socket.Connect(connect_information);
-                socket.SendFrame(XPath);
+                socket.SendFrame(sendMessage);
 
                 string message = null;
                 bool gotMessage = false;
@@ -125,10 +125,12 @@ public class SendXPath : MonoBehaviour
                 if (gotMessage)
                 {
                     Debug.Log("Message: " + message);
+                    return message;
                 }
                 else
                 {
                     Debug.Log("No response");
+                    return "No response";
                 }
             }
         }

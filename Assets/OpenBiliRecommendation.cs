@@ -6,26 +6,26 @@ using System;
 using UnityEngine;
 using Vuplex.WebView;
 
-public class OpenBili : MonoBehaviour
+public class OpenBiliRecommendation : MonoBehaviour
 {
     public WebViewPrefab webView;
     TextMeshPro tmp;
     string debugInfo;
 
-    SendXPath SendXPathScript;
+    SendString SendXPathScript;
 
     private void Awake()
     {
         Invoke("GetSendXPath", 1f);
-        tmp = gameObject.AddComponent<TextMeshPro>();
-        tmp.fontSize = 0.5f;
-        tmp.transform.position = new Vector3(10f, -2.4f, 0.6f);
+        //tmp = gameObject.AddComponent<TextMeshPro>();
+        //tmp.fontSize = 0.5f;
+        //tmp.transform.position = new Vector3(10f, -2.4f, 0.6f);
     }
 
     void GetSendXPath()
     {
         // Network Communication
-        SendXPathScript = GameObject.Find("WebManager").GetComponent<SendXPath>();
+        SendXPathScript = GameObject.Find("WebManager").GetComponent<SendString>();
     }
 
     // Start is called before the first frame update
